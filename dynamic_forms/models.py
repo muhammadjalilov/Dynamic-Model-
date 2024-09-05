@@ -26,3 +26,15 @@ class Field(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class FormResponse(models.Model):
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, related_name='form_responses')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+
+class FieldResponse(models.Model):
+    form_response = models.ForeignKey(FormResponse, related_name='field_responses', on_delete=models.CASCADE)
+    field = models.ForeignKey(Field, on_delete=models.CASCADE)
+    value = models.JSONField()
